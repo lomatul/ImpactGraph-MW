@@ -14,10 +14,7 @@ public class ComponentController {
         this.componentService = componentService;
     }
 
-    @GetMapping(path = "{create}")
-    public void createComponent(@RequestBody Component component) {
-        componentService.createComponent(component);
-    }
+
 
 
 

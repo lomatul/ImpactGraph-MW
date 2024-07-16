@@ -8,5 +8,5 @@ import java.util.Optional;
 
 
 public interface ComponentRepository extends Neo4jRepository<Component, Long> {
-    Optional<Component> findComponetByIp(String ip);
+
 }

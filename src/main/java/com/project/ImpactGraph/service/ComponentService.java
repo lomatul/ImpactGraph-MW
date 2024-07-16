@@ -20,16 +20,6 @@ public class ComponentService {
         this.componentRepository = componentRepository;
     }
 
-    public void createComponent(Component component) {
-        Optional<Component> componentOptional = componentRepository.findComponetByIp(component.getIp());
-        if(componentOptional.isPresent()) {
-            throw new IllegalStateException("IP is already in use");
-        }
-        componentRepository.save(component);
-        System.out.println(component);
-
-
-    }
 
 
 }
