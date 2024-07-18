@@ -1,6 +1,7 @@
 package com.project.ImpactGraph.controller;
 
-import com.project.ImpactGraph.dto.ComponentDto;
+import com.project.ImpactGraph.dto.CreateComponentDTO;
+import com.project.ImpactGraph.dto.SimpleComponentDTO;
 import com.project.ImpactGraph.entity.Component;
 import com.project.ImpactGraph.service.ComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ComponentController {
     }
 
     @PostMapping(path = "{create}")
-    public void createComponent(@RequestBody ComponentDto request) {
+    public void createComponent(@RequestBody CreateComponentDTO request) {
         Component component = new Component();
         component.setName(request.getName());
         component.setIp(request.getIp());
@@ -31,6 +32,12 @@ public class ComponentController {
                 request.getIncomingNodeIds(),
                 request.getOutgoingNodeIds()
         );
+
+    }
+
+    @GetMapping(path = "{all}")
+    public List<SimpleComponentDTO> getAllSimpleComponents(){
+        return componentService.getAllSimpleComponents();
 
     }
 }
