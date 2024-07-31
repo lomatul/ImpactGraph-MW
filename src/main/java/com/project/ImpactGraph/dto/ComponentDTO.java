@@ -7,7 +7,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public class CreateComponentDTO {
+public class ComponentDTO {
+    private Long id;
     private String name;
     private String ip;
     private String type;

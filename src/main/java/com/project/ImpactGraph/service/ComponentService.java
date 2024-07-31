@@ -1,8 +1,7 @@
 package com.project.ImpactGraph.service;
 
 
-import com.project.ImpactGraph.dto.CreateComponentDTO;
-import com.project.ImpactGraph.dto.SimpleComponentDTO;
+import com.project.ImpactGraph.dto.ComponentDTO;
 import com.project.ImpactGraph.entity.Component;
 import com.project.ImpactGraph.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +26,7 @@ public class ComponentService {
     }
 
     @Transactional
-    public Component createComponent(Component component, List<Long> incomingNodeIds, List<Long> outgoingNodeIds) {
+    public void createComponent(Component component, List<Long> incomingNodeIds, List<Long> outgoingNodeIds) {
 
         if (!incomingNodeIds.isEmpty()) {
             component.setIncomingComponents(fetchComponentsByIds(incomingNodeIds));
@@ -45,7 +45,7 @@ public class ComponentService {
 
         }
 
-        return componentRepository.save(component);
+         componentRepository.save(component);
     }
 
     private List<Component> fetchComponentsByIds(List<Long> ids) {
@@ -57,20 +57,42 @@ public class ComponentService {
 
 
     @Transactional
-    public List<SimpleComponentDTO> getAllSimpleComponents() {
+    public List<ComponentDTO> getAllComponents() {
         List<Component> components = componentRepository.findAll();
         return components.stream()
-                .map(this::convertToSimpleComponentDto)
+                .map(this::convertToComponentDto)
                 .collect(Collectors.toList());
     }
 
-    private SimpleComponentDTO convertToSimpleComponentDto(Component component) {
-        SimpleComponentDTO dto = new SimpleComponentDTO();
+    private ComponentDTO convertToComponentDto(Component component) {
+        ComponentDTO dto = new ComponentDTO();
         dto.setId(component.getId());
         dto.setName(component.getName());
         dto.setType(component.getType());
         dto.setIp(component.getIp());
+
+        // Map incoming components to their IDs
+        if (component.getIncomingComponents() != null) {
+            List<Long> incomingNodeIds = component.getIncomingComponents().stream()
+                    .map(Component::getId)
+                    .collect(Collectors.toList());
+            dto.setIncomingNodeIds(incomingNodeIds);
+        } else {
+            dto.setIncomingNodeIds(Collections.emptyList());
+        }
+
+        // Map outgoing components to their IDs
+        if (component.getOutgoingComponents() != null) {
+            List<Long> outgoingNodeIds = component.getOutgoingComponents().stream()
+                    .map(Component::getId)
+                    .collect(Collectors.toList());
+            dto.setOutgoingNodeIds(outgoingNodeIds);
+        } else {
+            dto.setOutgoingNodeIds(Collections.emptyList());
+        }
+
         return dto;
     }
+
 }
 
