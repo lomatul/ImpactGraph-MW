@@ -1,14 +1,17 @@
 package com.project.ImpactGraph.service;
 
 
+import com.project.ImpactGraph.dto.ComponentDTO;
 import com.project.ImpactGraph.entity.Component;
 import com.project.ImpactGraph.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
-import java.util.Optional;
-
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ComponentService {
@@ -20,6 +23,106 @@ public class ComponentService {
         this.componentRepository = componentRepository;
     }
 
+    @Transactional
+    public void createComponent(Component component, List<Long> incomingNodeIds, List<Long> outgoingNodeIds) {
+        if (!incomingNodeIds.isEmpty()) {
+            component.setIncomingComponents(fetchComponentsByIds(incomingNodeIds));
+        } else {
+            component.setIncomingComponents(List.of());
+        }
+        if (!outgoingNodeIds.isEmpty()) {
+            component.setOutgoingComponents(fetchComponentsByIds(outgoingNodeIds));
+        } else {
+            component.setOutgoingComponents(List.of());
+        }
 
+        componentRepository.save(component);
+    }
 
+    private List<Component> fetchComponentsByIds(List<Long> ids) {
+        return ids.stream()
+                .map(id -> componentRepository.findById(id)
+                        .orElseThrow(() -> new RuntimeException("Component not found with id: " + id)))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<ComponentDTO> getAllComponents() {
+        List<Component> components = componentRepository.findAll();
+        return components.stream()
+                .map(this::convertToComponentDto)
+                .collect(Collectors.toList());
+    }
+
+    private ComponentDTO convertToComponentDto(Component component) {
+        ComponentDTO dto = new ComponentDTO();
+        dto.setId(component.getId());
+        dto.setName(component.getName());
+        dto.setType(component.getType());
+        dto.setIp(component.getIp());
+
+        if (component.getIncomingComponents() != null) {
+            List<Long> incomingNodeIds = component.getIncomingComponents().stream()
+                    .map(Component::getId)
+                    .collect(Collectors.toList());
+            dto.setIncomingNodeIds(incomingNodeIds);
+        } else {
+            dto.setIncomingNodeIds(Collections.emptyList());
+        }
+
+        if (component.getOutgoingComponents() != null) {
+            List<Long> outgoingNodeIds = component.getOutgoingComponents().stream()
+                    .map(Component::getId)
+                    .collect(Collectors.toList());
+            dto.setOutgoingNodeIds(outgoingNodeIds);
+        } else {
+            dto.setOutgoingNodeIds(Collections.emptyList());
+        }
+
+        return dto;
+    }
+
+    @Transactional
+    public Component updateComponent(Component component, List<Long> incomingNodeIds, List<Long> outgoingNodeIds) {
+        Component existingComponent = componentRepository.findById(component.getId())
+                .orElseThrow(() -> new RuntimeException("Component not found with id: " + component.getId()));
+
+        existingComponent.setName(component.getName());
+
+        if (!incomingNodeIds.isEmpty()) {
+            existingComponent.setIncomingComponents(fetchComponentsByIds(incomingNodeIds));
+        } else {
+            existingComponent.setIncomingComponents(List.of());
+        }
+
+        if (!outgoingNodeIds.isEmpty()) {
+            existingComponent.setOutgoingComponents(fetchComponentsByIds(outgoingNodeIds));
+        } else {
+            existingComponent.setOutgoingComponents(List.of());
+        }
+
+        existingComponent.setIp(component.getIp());
+        existingComponent.setType(component.getType());
+
+        return componentRepository.save(existingComponent);
+    }
+
+    @Transactional
+    public Component getComponentByID(Long id) {
+        return componentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
+    }
+
+    @Transactional
+    public Component getComponentByName(String name) {
+        return componentRepository.findByName(name);
+    }
+
+    @Transactional
+    public Component deleteComponentByID(Long id)
+    {
+        Component selectedComponent = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
+        componentRepository.delete(selectedComponent);
+        return selectedComponent;
+    }
 }
