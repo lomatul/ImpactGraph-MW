@@ -33,10 +33,38 @@ public class ComponentController {
         );
 
     }
+    @GetMapping(path = "/ComID/{id}")
+    public Component getComponentById(@PathVariable long id) {
+        return componentService.getComponentByID(id);
+    }
 
     @GetMapping(path = "/all")
     public List<ComponentDTO> getAllComponents(){
         return componentService.getAllComponents();
+    @GetMapping(path = "/ComName/{name}")
+    public Component getComponentByName(@PathVariable String name) {
+        return componentService.getComponentByName(name);
+    }
 
+    }
+    @DeleteMapping(path = "/delete/{id}")
+    public Component getComponentByName(@PathVariable Long id) {
+        return componentService.deleteComponentByID(id);
+    }
+
+
+    @PutMapping(path = "/update")
+    public Component updateComponent(@RequestBody ComponentDTO request) {
+        Component existingComponent = componentService.getComponentByID(request.getId());
+
+        existingComponent.setName(request.getName());
+        existingComponent.setIp(request.getIp());
+        existingComponent.setType(request.getType());
+
+        return componentService.updateComponent(
+                existingComponent,
+                request.getIncomingNodeIds(),
+                request.getOutgoingNodeIds()
+        );
     }
 }

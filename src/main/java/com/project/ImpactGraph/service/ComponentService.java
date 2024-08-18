@@ -94,5 +94,50 @@ public class ComponentService {
         return dto;
     }
 
+
+    @Transactional
+    public Component updateComponent(Component component, List<Long> incomingNodeIds, List<Long> outgoingNodeIds) {
+        Component existingComponent = componentRepository.findById(component.getId())
+                .orElseThrow(() -> new RuntimeException("Component not found with id: " + component.getId()));
+
+        existingComponent.setName(component.getName());
+
+        if (!incomingNodeIds.isEmpty()) {
+            existingComponent.setIncomingComponents(fetchComponentsByIds(incomingNodeIds));
+        } else {
+            existingComponent.setIncomingComponents(List.of());
+        }
+
+        if (!outgoingNodeIds.isEmpty()) {
+            existingComponent.setOutgoingComponents(fetchComponentsByIds(outgoingNodeIds));
+        } else {
+            existingComponent.setOutgoingComponents(List.of());
+        }
+
+        existingComponent.setIp(component.getIp());
+        existingComponent.setType(component.getType());
+
+        return componentRepository.save(existingComponent);
+    }
+
+    @Transactional
+    public Component getComponentByID(Long id) {
+        return componentRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
+    }
+
+    @Transactional
+    public Component getComponentByName(String name) {
+        return componentRepository.findByName(name);
+    }
+
+    @Transactional
+    public Component deleteComponentByID(Long id)
+    {
+        Component selectedComponent = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
+        componentRepository.delete(selectedComponent);
+        return selectedComponent;
+    }
 }
+
 
