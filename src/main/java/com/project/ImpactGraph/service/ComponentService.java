@@ -127,11 +127,6 @@ public class ComponentService {
     }
 
     @Transactional
-    public Component getComponentByName(String name) {
-        return componentRepository.findByName(name);
-    }
-
-    @Transactional
     public Component deleteComponentByID(Long id)
     {
         Component selectedComponent = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found with id: " + id));

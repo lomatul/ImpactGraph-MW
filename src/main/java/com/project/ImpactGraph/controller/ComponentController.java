@@ -39,14 +39,15 @@ public class ComponentController {
     }
 
     @GetMapping(path = "/all")
-    public List<ComponentDTO> getAllComponents(){
+    public List<ComponentDTO> getAllComponents() {
         return componentService.getAllComponents();
+    }
     @GetMapping(path = "/ComName/{name}")
     public Component getComponentByName(@PathVariable String name) {
         return componentService.getComponentByName(name);
     }
 
-    }
+
     @DeleteMapping(path = "/delete/{id}")
     public Component getComponentByName(@PathVariable Long id) {
         return componentService.deleteComponentByID(id);
