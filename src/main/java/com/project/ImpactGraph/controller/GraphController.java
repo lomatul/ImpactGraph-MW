@@ -1,16 +1,13 @@
 package com.project.ImpactGraph.controller;
 
+import com.project.ImpactGraph.service.GraphService;
 import org.neo4j.driver.Driver;
 import org.neo4j.driver.Session;
 import org.neo4j.driver.Record;
 import org.neo4j.driver.Result;
 import org.neo4j.driver.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.project.ImpactGraph.config.Neo4jConfig;
 
 import java.util.*;
@@ -21,6 +18,9 @@ import java.util.*;
 public class GraphController {
 
     private final Driver neo4jDriver;
+    @Autowired
+    private GraphService graphService;
+
 
     @Autowired
     public GraphController(Neo4jConfig neo4jConfig) {
@@ -66,6 +66,7 @@ public class GraphController {
                     Map<String, Object> edge = new HashMap<>();
                     edge.put("from", nodeData.elementId());
                     edge.put("to", targetNodeData.elementId());
+                    edge.put("elementId", relationshipData.elementId());
                     edges.add(edge);
                 }
             }
@@ -129,5 +130,13 @@ public class GraphController {
 
         return impactedNodes;
     }
+
+
+        @DeleteMapping("/edge/{id}")
+        public void  deleteEdge(@PathVariable Long id) {
+            graphService.deleteRelationship(id);
+
+        }
+
 
 }
