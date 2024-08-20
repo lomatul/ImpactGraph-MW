@@ -114,7 +114,7 @@ public class GraphService {
                 impactedNodeData.put("properties", impactedNode.asMap());
 
                 impactedNodes.add(impactedNodeData);
-            }
+            } 
         }
 
         return impactedNodes;
