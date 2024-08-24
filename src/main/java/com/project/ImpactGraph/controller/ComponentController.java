@@ -4,6 +4,7 @@ import com.project.ImpactGraph.dto.ComponentDTO;
 import com.project.ImpactGraph.entity.Component;
 import com.project.ImpactGraph.service.ComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ComponentController {
     public ComponentController(ComponentService componentService) {
         this.componentService = componentService;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping(path = "/create")
     public void createComponent(@RequestBody ComponentDTO request) {
         Component component = new Component();
@@ -33,23 +34,24 @@ public class ComponentController {
         );
 
     }
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping(path = "/ComID/{id}")
     public Component getComponentById(@PathVariable long id) {
         return componentService.getComponentByID(id);
     }
-
+    @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping(path = "/all")
     public List<ComponentDTO> getAllComponents() {
         return componentService.getAllComponents();
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "/delete/{id}")
     public Component getComponentByName(@PathVariable Long id) {
         return componentService.deleteComponentByID(id);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping(path = "/update")
     public Component updateComponent(@RequestBody ComponentDTO request) {
         Component existingComponent = componentService.getComponentByID(request.getId());
@@ -64,4 +66,6 @@ public class ComponentController {
                 request.getOutgoingNodeIds()
         );
     }
+
+
 }
