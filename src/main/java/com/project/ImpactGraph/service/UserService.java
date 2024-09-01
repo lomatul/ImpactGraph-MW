@@ -33,7 +33,7 @@ public class UserService {
         return userRepo.findAll();
     }
 
-    public User deleteUserById(String id) {
+    public User deleteUserById(Long id) {
         User user = userRepo.findById(id).orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
         userRepo.delete(user);
         return user;
