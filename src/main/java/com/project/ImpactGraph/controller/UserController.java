@@ -33,8 +33,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/getText")
-    public String getText(){
-        return "Hello text";
+    @GetMapping("/checkUsername/{username}")
+    public Boolean checkUsernameExists(@PathVariable String username) {
+        boolean exists = userService.existsByUsername(username);
+        return exists;
     }
 }

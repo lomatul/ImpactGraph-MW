@@ -55,6 +55,7 @@ public class LoginController {
                 .collect(Collectors.toList());
 
         System.out.println("JWT Token: " + jwtToken);
+        System.out.println("Roles: " + roles);
 
         LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
 

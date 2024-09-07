@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "api/components")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ComponentController {
 
     private final ComponentService componentService;
@@ -39,6 +40,7 @@ public class ComponentController {
     public Component getComponentById(@PathVariable long id) {
         return componentService.getComponentByID(id);
     }
+
     @PreAuthorize("hasAnyRole('USER','ADMIN')")
     @GetMapping(path = "/all")
     public List<ComponentDTO> getAllComponents() {
