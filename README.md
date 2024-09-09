@@ -71,7 +71,8 @@ dependencies
      * Users and Admins are able to search any components by its name or ip address and can view the details
  ```
 
-![image](https://github.com/user-attachments/assets/b24b68b5-cd7f-4d2b-8364-2c6b60f4b350)
+
+![image](https://github.com/user-attachments/assets/09f0d8c1-9184-49a3-84b3-d491466cfa1b)
 
 
 
