@@ -9,7 +9,6 @@ import java.util.*;
 
 @RestController
 @RequestMapping("/api/graph")
-@CrossOrigin(origins = "http://localhost:3000")
 public class GraphController {
 
     private final GraphService graphService;
