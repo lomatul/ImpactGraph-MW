@@ -88,6 +88,7 @@ Clone the UI Project from Here [ImpactGraph-UI](https://github.com/Habib0905/Imp
 
 
 ### Step 3: Install npm and other dependencies
+Node.js Version- 20.15.0
 
 ```sh
 npm install
