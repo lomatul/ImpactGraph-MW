@@ -22,16 +22,14 @@ Complete
 
 ##  :briefcase: Brief Overview : 
 ```
-In a complex network environment, engineers often need to take down specific
-components for maintenance, updates, or troubleshooting.
-Currently, the process of identifying and understanding the downstream impact of
-shutting down a component relies heavily on the engineer's memory and manual
-tracking.
+In a complex network environment, engineers often need to take down specific components for
+maintenance, updates, or troubleshooting. Currently, the process of identifying and understanding
+the downstream impact ofshutting down a component relies heavily on the engineer's memory
+and manual tracking.
 This method is prone to errors, as engineers may overlook certain dependencies or miss
 components that are indirectly affected.An Interactive Component Dependency Management System.
 This application will provide a visual representation of all components and their dependencies
-within the network.It will support operations for managing components and their
-dependencies
+within the network.It will support operations for managing components and their dependencies
  ```
 
 
@@ -71,8 +69,8 @@ dependencies
      * Users and Admins are able to search any components by its name or ip address and can view the details
  ```
 
+![image](https://github.com/user-attachments/assets/f8d4efb3-7c7f-4cfd-b56c-ca39101743e4)
 
-![image](https://github.com/user-attachments/assets/c2bd587f-32c8-4d2f-93f0-954d43ce7ef7)
 
 
 
@@ -89,7 +87,6 @@ Clone the UI Project from Here [ImpactGraph-UI](https://github.com/Habib0905/Imp
 
 ### Step 3: Install npm and other dependencies
 Node.js Version- 20.15.0
-
 ```sh
 npm install
 ```
@@ -144,18 +141,18 @@ Clone the Backend Project from Here [ImpactGraph-MW](https://github.com/lomatul/
 ```sh
 spring.application.name=ImpactGraph
 server.port = 8081
-spring.neo4j.uri=< your neo4j/ auradb uri >
-spring.neo4j.authentication.username= < your Neo4j Username >
-spring.neo4j.authentication.password=< your Neo4j Password >
+spring.neo4j.uri= <your neo4j/ auradb uri>
+spring.neo4j.authentication.username= <your Neo4j Username>
+spring.neo4j.authentication.password= <your Neo4j Password>
 spring.app.jwtSecret=4b3e5zF8xJZpWkNwQzCFJaNdRgUkXp2s5v8yBEHMbQeThWmZq4t6w9
 spring.app.jwtExpirationMs=86400000
 spring.security.user.password=admin
 spring.security.user.name=admin
 
 
-spring.datasource.url= < your Mysql Url >
-spring.datasource.username= < your mysql Username >
-spring.datasource.password=< your mysql Password >
+spring.datasource.url= <your Mysql Url>
+spring.datasource.username= <your mysql Username>
+spring.datasource.password= <your mysql Password>
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 
 
@@ -164,9 +161,29 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 ```
 
-### :globe_with_meridians: Step 4: Run ImpactGraph-MW in your local 
-#### You can build the project and run the tests by running mvn clean package
-#### There are several ways to run a Spring Boot application on your local machine. One way is to execute the main method in the com.project.ImpactGraph class from your IDE.
+### :globe_with_meridians: Step 4: Run ImpactGraph-MW in your local machine
+You can build the project and run the tests.
+
+#### There are several ways to run a Spring Boot application on your local machine:
+One way is to execute the main method in the `com.project.ImpactGraph` class from your IDE.
+
+---
+
+#### Running a JAR with an external `application.properties` file:
+
+1. **Create the JAR file:**
+   - In **IntelliJ**, go to the **Gradle** tab and run `bootJar`. 
+   - This will create a JAR file in the `build/libs` directory.
+
+2. **Run the JAR with an external `application.properties` file:**
+   
+  Run the following command in the terminal to run the JAR:
+
+   ```sh
+   java -jar ImpactGraph.jar --spring.config.location=classpath:/,file:/path/to/external/application.properties
+   ```
+
+**Replace** the `/path/to/external/application.properties` with the actual path to your `application.properties file`.
 
 ![image](https://github.com/user-attachments/assets/601661bf-5731-4632-b643-23c227b5dea5)
 
