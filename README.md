@@ -90,7 +90,7 @@ Node.js Version- 20.15.0
 ```sh
 npm install
 ```
-### Step 4: Create a .env file
+### Step 4: Create .env file
 ```sh
 PORT = <Port Number>
 REACT_APP_SECRET_KEY = <Secret Key>
