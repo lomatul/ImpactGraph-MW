@@ -161,6 +161,13 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL8Dialect
 ```
 
+#### .env
+```sh
+PORT = <Port Number>
+REACT_APP_SECRET_KEY = <Secret Key>
+REACT_APP_BASE_URL = <Base Url>
+```
+
 ### :globe_with_meridians: Step 4: Run ImpactGraph-MW in your local machine
 You can build the project and run the tests.
 
