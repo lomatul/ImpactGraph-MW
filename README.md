@@ -147,11 +147,12 @@ Clone the Backend Project from Here [ImpactGraph-MW](https://github.com/lomatul/
 ```sh
 spring.application.name=ImpactGraph
 server.port = 8081
+app.allowed.origins=<URL>
 spring.neo4j.uri= <your neo4j/ auradb uri>
 spring.neo4j.authentication.username= <your Neo4j Username>
 spring.neo4j.authentication.password= <your Neo4j Password>
 spring.app.jwtSecret=4b3e5zF8xJZpWkNwQzCFJaNdRgUkXp2s5v8yBEHMbQeThWmZq4t6w9
-spring.app.jwtExpirationMs=86400000
+spring.app.jwtExpirationMs=604800000
 spring.security.user.password=admin
 spring.security.user.name=admin
 
