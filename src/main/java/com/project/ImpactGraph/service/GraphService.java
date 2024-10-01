@@ -11,7 +11,8 @@ import org.neo4j.driver.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.*;
 
 @Service
@@ -19,7 +20,7 @@ public class GraphService {
 
     private final GraphRepository graphRepository;
     private final Driver neo4jDriver;
-
+    private static final Logger logger = LoggerFactory.getLogger(GraphService.class);
     @Autowired
     public GraphService(GraphRepository graphRepository, Driver neo4jDriver) {
         this.graphRepository = graphRepository;
@@ -71,7 +72,7 @@ public class GraphService {
             response.put("nodes", nodes);
             response.put("edges", edges);
         }
-
+        logger.info("Fetching graph data");
         return response;
     }
 
@@ -92,7 +93,7 @@ public class GraphService {
                 nodeDetails.put("properties", node.asMap());
             }
         }
-
+        logger.info("Getting component details of component with id : " + id);
         return nodeDetails;
     }
 
@@ -116,12 +117,13 @@ public class GraphService {
                 impactedNodes.add(impactedNodeData);
             } 
         }
-
+        logger.info("Finding impacted components of component with id : " + id);
         return impactedNodes;
     }
 
     @Transactional
     public void deleteRelationship(Long relationshipId) {
         graphRepository.deleteRelationshipById(relationshipId);
+        logger.info("Deleting relationship");
     }
 }

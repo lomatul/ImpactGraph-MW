@@ -1,5 +1,6 @@
 package com.project.ImpactGraph.controller;
 
+import com.project.ImpactGraph.service.ComponentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.project.ImpactGraph.security.JwtUtils;
 import com.project.ImpactGraph.dto.LoginRequest;
 import com.project.ImpactGraph.dto.LoginResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +32,8 @@ public class LoginController {
 
     @Autowired
     private AuthenticationManager authenticationManager;
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 
     @PostMapping("/signin")
@@ -54,8 +59,8 @@ public class LoginController {
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
 
-        System.out.println("JWT Token: " + jwtToken);
-        System.out.println("Roles: " + roles);
+        logger.info("JWT Token: " + jwtToken);
+        logger.info("Roles: " + roles);
 
         LoginResponse response = new LoginResponse(userDetails.getUsername(), roles, jwtToken);
 

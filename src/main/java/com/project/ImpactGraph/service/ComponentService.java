@@ -7,6 +7,8 @@ import com.project.ImpactGraph.repository.ComponentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import java.util.Collections;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 public class ComponentService {
 
     private final ComponentRepository componentRepository;
-
+    private static final Logger logger = LoggerFactory.getLogger(ComponentService.class);
 
     @Autowired
     public ComponentService(ComponentRepository componentRepository) {
@@ -44,20 +46,23 @@ public class ComponentService {
             component.setOutgoingComponents(List.of());
 
         }
-
+         logger.info("Component created with IP: " + component.getIp());
          componentRepository.save(component);
     }
 
     private List<Component> fetchComponentsByIds(List<Long> ids) {
+
         return ids.stream()
                 .map(id -> componentRepository.findById(id)
                         .orElseThrow(() -> new RuntimeException("Component not found with id: " + id)))
                 .collect(Collectors.toList());
+
     }
 
 
     @Transactional
     public List<ComponentDTO> getAllComponents() {
+        logger.info("Fetched all components");
         List<Component> components = componentRepository.findAll();
         return components.stream()
                 .map(this::convertToComponentDto)
@@ -116,12 +121,13 @@ public class ComponentService {
 
         existingComponent.setIp(component.getIp());
         existingComponent.setType(component.getType());
-
+        logger.info("Component updated with IP: " + existingComponent.getIp());
         return componentRepository.save(existingComponent);
     }
 
     @Transactional
     public Component getComponentByID(Long id) {
+        logger.info("Fetched component with id: " + id);
         return componentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
     }
@@ -129,6 +135,7 @@ public class ComponentService {
     @Transactional
     public Component deleteComponentByID(Long id)
     {
+        logger.info("Component deleted with id: " + id);
         Component selectedComponent = componentRepository.findById(id).orElseThrow(() -> new RuntimeException("Component not found with id: " + id));
         componentRepository.delete(selectedComponent);
         return selectedComponent;
