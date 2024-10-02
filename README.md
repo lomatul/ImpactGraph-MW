@@ -102,9 +102,20 @@ REACT_APP_BASE_URL = <Base Url>
 ```sh
 npm run start
 ```
+You can run the project by Process Manager.There is a file in the Project directory named "ecosystem.config.js". In this file you can add your own sricpt , Project Name ,
+can define the maximum number of CPU and Memory usage.
+```sh
+npm install pm2@latest -g
+npm run build
+```
+
+```sh
+pm2 start ecosystem.config.js
+```
+
 
 Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Open [http://localhost:<Port_Number>](http://localhost:Port_Number) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
